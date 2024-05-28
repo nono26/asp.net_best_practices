@@ -1,3 +1,5 @@
+using BackeEnd.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +8,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddControllers(); //for the controllers
+
+builder.Services.AddInfrastructure(); // for the Infrastructure services (I/O )
 
 var app = builder.Build();
 
