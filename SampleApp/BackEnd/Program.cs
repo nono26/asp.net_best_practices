@@ -5,6 +5,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddControllers(); //for the controllers
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -13,6 +15,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MapControllers();// for the Controllers
+app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 
 var summaries = new[]
 {
@@ -36,7 +41,3 @@ app.MapGet("/weatherforecast", () =>
 
 app.Run();
 
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
