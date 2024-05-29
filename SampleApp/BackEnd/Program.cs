@@ -1,4 +1,5 @@
 using BackeEnd.Infrastructure;
+using BackEnd.Logic;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddControllers(); //for the controllers
 
-builder.Services.AddInfrastructure(); // for the Infrastructure services (I/O )
+builder.Services.AddInfrastructure(); // for the Infrastructure services (I/O)
+
+builder.Services.AddLogic(); // for the Logic services (MediatR, etc).
 
 var app = builder.Build();
 
@@ -23,12 +26,14 @@ if (app.Environment.IsDevelopment())
 app.MapControllers();// for the Controllers
 app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 
+# region "Minimun API"
+
 var summaries = new[]
 {
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
 
-app.MapGet("/weatherforecast", () =>
+app.MapGet("/MinAPIweatherforecast", () =>
 {
     var forecast = Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast
@@ -40,8 +45,10 @@ app.MapGet("/weatherforecast", () =>
         .ToArray();
     return forecast;
 })
-.WithName("GetWeatherForecast")
+.WithName("MinAPIGetWeatherForecast")
 .WithOpenApi();
+
+#endregion "Minimun API"
 
 app.Run();
 
