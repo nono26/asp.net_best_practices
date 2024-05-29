@@ -19,12 +19,12 @@ public class ReadWeatherForecastGateway : IReadWeatherForecastGateway
     /// <returns></returns>
     public async Task<IEnumerable<WeatherForecast>> GetWeatherForecast(int days)
     {
-        _logger.LogInformation("Getting weather forecast for {Days} days", days);
+        _logger.LogInformation($"Getting weather forecast for {days} days");
 
         var rng = new Random();
         var forecasts = new List<WeatherForecast>();
         //Let's pretend to read from an external source
-        var forecast = Enumerable.Range(1, 5).Select(index =>
+        var forecast = Enumerable.Range(1, days).Select(index =>
         new WeatherForecast
         (
             DateOnly.FromDateTime(DateTime.Now.AddDays(index)),

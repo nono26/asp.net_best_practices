@@ -1,4 +1,5 @@
 using BackEnd.Logic.Queries;
+using BackEnd.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,11 +17,17 @@ namespace SampleApp.BackEnd.Controllers
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Get the weather forecast for the next {days} days
+        /// </summary>
+        /// <param name="request">request of the API</param>
+        /// <returns>List of weather forecast</returns>
         [HttpGet]
-        public async Task<IEnumerable<WeatherForecast>> Get()
+        [ProducesResponseType(typeof(IEnumerable<WeatherForecast>), 200)]
+        public async Task<IActionResult> Get([FromQuery] ReadWeatherForecast request)
         {
-            var WeatherForecast = await _mediator.Send(new WeatherForecastQuery { Days = 5 });
-            return WeatherForecast.OrderBy(x => x.Date);
+            var WeatherForecast = await _mediator.Send(new WeatherForecastQuery { Days = request.Days });
+            return WeatherForecast != null ? Ok(WeatherForecast.Order()) : NoContent();
         }
     }
 }

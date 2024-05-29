@@ -25,7 +25,7 @@ public class ConsoleLogger<T> : ILogger<T>
     /// <exception cref="NotImplementedException"></exception>
     public void LogError(Exception exception, string message, params object[] args)
     {
-        throw new NotImplementedException();
+        Console.WriteLine(string.Concat(exception.Message, message), _name, args);
     }
 
     /// <summary>

@@ -12,6 +12,6 @@ namespace FrontEnd.Data
         }
 
         public async Task<WeatherForecast[]> GetForecastAsync(DateTime? startDate)
-            => await _httpClient.GetFromJsonAsync<WeatherForecast[]>($"WeatherForecast?startDate={startDate}");
+            => await _httpClient.GetFromJsonAsync<WeatherForecast[]>($"MinAPIweatherforecast?startDate={startDate}");
     }
 }

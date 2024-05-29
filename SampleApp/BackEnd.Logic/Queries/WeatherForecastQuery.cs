@@ -1,4 +1,3 @@
-using System.Collections;
 using BackEnd.Logic.Interface;
 using MediatR;
 
@@ -31,7 +30,7 @@ public class WeatherForecastQueryHandler : IRequestHandler<WeatherForecastQuery,
         try
         {
             //define the logic here 
-            _logger.LogInformation("Getting weather forecast for {Days} days", request.Days);
+            _logger.LogInformation($"Getting weather forecast for {request.Days} days");
             return await Task.FromResult(
                 await _gateway.GetWeatherForecast(request.Days) //Access to the gateway to get the data from an external source
                 );
@@ -39,7 +38,7 @@ public class WeatherForecastQueryHandler : IRequestHandler<WeatherForecastQuery,
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error reading ReadWeatherForecastGateway");
-            return []; //return an empty list when an error occurs to avoid null reference exceptions
+            return [];//return an empty list is a acceptable data and when an error occurs to avoid null reference exceptions 
         }
         finally
         {
