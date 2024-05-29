@@ -1,6 +1,6 @@
+using BackEnd.Logic.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 
 namespace SampleApp.BackEnd.Controllers
 {
@@ -8,27 +8,19 @@ namespace SampleApp.BackEnd.Controllers
     [Route("api/[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
+
+        private readonly IMediator _mediator;
+
+        public WeatherForecastController(IMediator mediator)
         {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+            _mediator = mediator;
+        }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IEnumerable<WeatherForecast>> Get()
         {
-            var rng = new Random();
-            var forecasts = new List<WeatherForecast>();
-
-            var forecast = Enumerable.Range(1, 5).Select(index =>
-            new WeatherForecast
-            (
-                DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                Random.Shared.Next(-20, 55),
-                Summaries[Random.Shared.Next(Summaries.Length)]
-            ))
-            .ToArray();
-
-            return forecasts;
+            var WeatherForecast = await _mediator.Send(new WeatherForecastQuery { Days = 5 });
+            return WeatherForecast.OrderBy(x => x.Date);
         }
     }
 }

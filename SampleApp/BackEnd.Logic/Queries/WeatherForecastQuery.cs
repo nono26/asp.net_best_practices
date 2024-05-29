@@ -32,7 +32,7 @@ public class WeatherForecastQueryHandler : IRequestHandler<WeatherForecastQuery,
             Summaries[Random.Shared.Next(Summaries.Length)]
         ));
 
-        return forecast;
+        return await Task.FromResult(forecast);
     }
 
     private static readonly string[] Summaries = new[]
