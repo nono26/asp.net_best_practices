@@ -23,8 +23,8 @@ namespace SampleApp.BackEnd.Controllers
         /// <param name="request">request of the API</param>
         /// <returns>List of weather forecast</returns>
         [HttpGet]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
+        [ProducesResponseType(200)]//for swagger documentation
+        [ProducesResponseType(400)]//for swagger documentation
         public async Task<ActionResult<WeatherForecast>> Get([FromQuery] ReadWeatherForecast request)
         {
             if (ModelState.IsValid)
@@ -41,7 +41,7 @@ namespace SampleApp.BackEnd.Controllers
         /// <param name="request">request of the API</param>
         /// <returns>List of weather forecast</returns>
         [HttpGet("IASyncEnumerableVersion")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(200)]//for swagger documentation
         public async Task<ActionResult<IAsyncEnumerable<WeatherForecast>>> GetIAsyncIEnumerable([FromQuery] ReadWeatherForecast request)
         {
             if (ModelState.IsValid)

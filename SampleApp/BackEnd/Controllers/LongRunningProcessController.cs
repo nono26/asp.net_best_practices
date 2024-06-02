@@ -21,8 +21,8 @@ namespace SampleApp.BackEnd.Controllers
         /// <param name="request">request of the API</param>
         /// <returns></returns>
         [HttpPost("StartLongRunningProcess")]
-        [ProducesResponseType(202)]
-        [ProducesResponseType(400)]
+        [ProducesResponseType(202)]//for swagger documentation
+        [ProducesResponseType(400)]//for swagger documentation
         public async Task<IActionResult> StartLongRunningProcess([FromBody] StartLongRunningProcess request)
         {
             if (ModelState.IsValid)
@@ -42,9 +42,9 @@ namespace SampleApp.BackEnd.Controllers
         /// <param name="request">request of the API</param>
         /// <returns></returns>
         [HttpGet(nameof(GetLongRunningProcessStatus))]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(StatusCodes.Status303SeeOther)]
+        [ProducesResponseType(200)]// for swagger documentation
+        [ProducesResponseType(400)]// for swagger documentation
+        [ProducesResponseType(StatusCodes.Status303SeeOther)]// for swagger documentation
         public async Task<IActionResult> GetLongRunningProcessStatus([FromQuery] GetLongRunningProcessStatus request)
         {
             if (ModelState.IsValid)
