@@ -2,6 +2,7 @@ using BackEnd.Logic.Queries;
 using BackEnd.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace SampleApp.BackEnd.Controllers
 {
@@ -24,10 +25,15 @@ namespace SampleApp.BackEnd.Controllers
         /// <returns>List of weather forecast</returns>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<WeatherForecast>), 200)]
+        //[ProducesResponseType(typeof(ModelStateDictionary), 400)]
         public async Task<IActionResult> Get([FromQuery] ReadWeatherForecast request)
         {
-            var WeatherForecast = await _mediator.Send(new WeatherForecastQuery { Days = request.Days });
-            return WeatherForecast != null ? Ok(WeatherForecast.Order()) : NoContent();
+            if (ModelState.IsValid)
+            {
+                var WeatherForecast = await _mediator.Send(new WeatherForecastQuery { Days = request.Days });
+                return WeatherForecast != null ? Ok(WeatherForecast.Order()) : NoContent();
+            }
+            return BadRequest(ModelState);
         }
     }
 }
