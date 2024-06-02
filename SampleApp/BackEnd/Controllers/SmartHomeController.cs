@@ -24,7 +24,7 @@ public class SmartHomeController : ControllerBase
     /// <param name="request">request of the API</param>
     /// <returns></returns>
     [HttpPost("TurnOnLights_RPC_Style")]
-    public async Task<IActionResult> TurnOnLightsRPC([FromBody] TurnOnLightsRPC request)
+    public async Task<ActionResult<Boolean>> TurnOnLightsRPC([FromBody] TurnOnLightsRPC request)
     {
         if (ModelState.IsValid)
         {
@@ -42,7 +42,7 @@ public class SmartHomeController : ControllerBase
     /// <param name="request">request of the API</param>
     /// <returns></returns>
     [HttpPut("TurnOnLights_REST_Style")]
-    public async Task<IActionResult> TurnOnLightsREST([FromBody] TurnOnLightsREST request)
+    public async Task<ActionResult<Boolean>> TurnOnLightsREST([FromBody] TurnOnLightsREST request)
     {
         if (ModelState.IsValid)
         {

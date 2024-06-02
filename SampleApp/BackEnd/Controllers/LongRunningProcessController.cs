@@ -71,7 +71,7 @@ namespace SampleApp.BackEnd.Controllers
         [HttpGet("GetLongRunningProcessResult/{processId}/result")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> GetLongRunningProcessResult([FromRoute] int processId)
+        public async Task<ActionResult<string>> GetLongRunningProcessResult([FromRoute] int processId)
         {
             if (ModelState.IsValid)
             {

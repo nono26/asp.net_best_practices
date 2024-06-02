@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using BackEnd.Logic.Queries;
 using BackEnd.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SampleApp.BackeEnd.Logic.Queries;
 
 namespace SampleApp.BackEnd.Controllers
 {
@@ -21,9 +23,9 @@ namespace SampleApp.BackEnd.Controllers
         /// <param name="request">request of the API</param>
         /// <returns>List of weather forecast</returns>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<WeatherForecast>), 200)]
-        //[ProducesResponseType(typeof(ModelStateDictionary), 400)]
-        public async Task<IActionResult> Get([FromQuery] ReadWeatherForecast request)
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<WeatherForecast>> Get([FromQuery] ReadWeatherForecast request)
         {
             if (ModelState.IsValid)
             {
@@ -33,5 +35,22 @@ namespace SampleApp.BackEnd.Controllers
             }
             return BadRequest(ModelState);
         }
+        /// <summary>
+        /// Get the weather forecast for the next {days} days with an IASyncEnumerable
+        /// </summary>
+        /// <param name="request">request of the API</param>
+        /// <returns>List of weather forecast</returns>
+        [HttpGet("IASyncEnumerableVersion")]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IAsyncEnumerable<WeatherForecast>>> GetIAsyncIEnumerable([FromQuery] ReadWeatherForecast request)
+        {
+            if (ModelState.IsValid)
+            {
+                var WeatherForecast = await _mediator.Send(new WeatherForecastQueryIAsyncEnumerable { Days = request.Days });
+                return WeatherForecast != null ? Ok(WeatherForecast) : NoContent();
+            }
+            return BadRequest(ModelState);
+        }
+
     }
 }
