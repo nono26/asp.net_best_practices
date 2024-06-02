@@ -2,7 +2,6 @@ using BackEnd.Logic.Queries;
 using BackEnd.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace SampleApp.BackEnd.Controllers
 {
@@ -10,9 +9,7 @@ namespace SampleApp.BackEnd.Controllers
     [Route("api/[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-
         private readonly IMediator _mediator;
-
         public WeatherForecastController(IMediator mediator)
         {
             _mediator = mediator;
@@ -32,6 +29,7 @@ namespace SampleApp.BackEnd.Controllers
             {
                 var WeatherForecast = await _mediator.Send(new WeatherForecastQuery { Days = request.Days });
                 return WeatherForecast != null ? Ok(WeatherForecast.Order()) : NoContent();
+                //the order of the data is managed in the Controller layer (but it can be done in the Logic layer too, depend on the bussiness rules)
             }
             return BadRequest(ModelState);
         }
