@@ -1,5 +1,6 @@
 using BackeEnd.Infrastructure;
 using BackEnd.Logic;
+using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
 //https://learn.microsoft.com/fr-fr/dotnet/api/microsoft.aspnetcore.builder.webapplication.createbuilder?view=aspnetcore-8.0
@@ -14,19 +15,37 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddControllers(); //for the controllers
+builder.Services.AddControllers(options =>
+{
+    options.RespectBrowserAcceptHeader = true; //respect the browser accept header
+}
+).AddXmlSerializerFormatters();// Configuring Content negotiation
 
 builder.Services.AddInfrastructure(); // for the Infrastructure services (I/O)
 
 builder.Services.AddLogic(); // for the Logic services (MediatR, etc).
 
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;//be careful with this option, check the documentation 
+    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/octet-stream" });
+}); // for the Response Compression
+
 var app = builder.Build();
 
+app.UseResponseCompression(); // we add the middleware to our request pileline
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseExceptionHandler("/error-local-development");
+    //app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/error");
+    app.UseHsts();
 }
 
 app.MapControllers();// for the Controllers

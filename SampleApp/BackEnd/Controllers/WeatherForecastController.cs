@@ -25,6 +25,7 @@ namespace SampleApp.BackEnd.Controllers
         [HttpGet]
         [ProducesResponseType(200)]//for swagger documentation
         [ProducesResponseType(400)]//for swagger documentation
+        [ResponseCache(Duration = 10, Location = ResponseCacheLocation.Any)]//Cache configuration, it adds in header : cache-control: public,max-age=10
         public async Task<ActionResult<WeatherForecast>> Get([FromQuery] ReadWeatherForecast request)
         {
             if (ModelState.IsValid)
