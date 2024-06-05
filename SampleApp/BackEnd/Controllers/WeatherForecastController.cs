@@ -3,12 +3,14 @@ using BackEnd.Logic.Queries;
 using BackEnd.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SampleApp.BackEnd.Attributes;
 using SampleApp.BackEnd.Logic.Queries;
 
 namespace SampleApp.BackEnd.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [ResponseHeader("Filder-header", "Filder-Value")]//add a header to the response for each request #filterAttribut_1
     public class WeatherForecastController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -26,6 +28,7 @@ namespace SampleApp.BackEnd.Controllers
         [ProducesResponseType(200)]//for swagger documentation
         [ProducesResponseType(400)]//for swagger documentation
         [ResponseCache(Duration = 10, Location = ResponseCacheLocation.Any)]//Cache configuration, it adds in header : cache-control: public,max-age=10
+        [ResponseHeader("Another-filter-header", "Another Filter Value")]//add a header to the response to this request #filterAttribut_2
         public async Task<ActionResult<WeatherForecast>> Get([FromQuery] ReadWeatherForecast request)
         {
             if (ModelState.IsValid)

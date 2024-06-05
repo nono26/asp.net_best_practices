@@ -1,6 +1,7 @@
 using BackEnd.Infrastructure;
 using BackEnd.Logic;
 using Microsoft.AspNetCore.ResponseCompression;
+using SampleApp.BackEnd.Attributes;
 using SampleApp.BackEnd.BackgroundServices;
 using SampleApp.BackEnd.BackgroundServices.Interfaces;
 
@@ -20,6 +21,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers(options =>
 {
     options.RespectBrowserAcceptHeader = true; //respect the browser accept header
+    options.Filters.Add<GlobalResponseHeaderAttribute>();//add a global header to the response for each request #filterAttribut_3
 }
 ).AddXmlSerializerFormatters();// Configuring Content negotiation
 
