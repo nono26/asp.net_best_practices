@@ -1,7 +1,7 @@
 
 using MediatR;
 
-namespace SampleApp.BackeEnd.Logic.Queries;
+namespace SampleApp.BackEnd.Logic.Queries;
 
 public class WeatherForecastQueryIAsyncEnumerable : IRequest<IAsyncEnumerable<WeatherForecast>>
 {

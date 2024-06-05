@@ -3,7 +3,7 @@ using BackEnd.Logic.Queries;
 using BackEnd.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SampleApp.BackeEnd.Logic.Queries;
+using SampleApp.BackEnd.Logic.Queries;
 
 namespace SampleApp.BackEnd.Controllers
 {

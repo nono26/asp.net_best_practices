@@ -2,7 +2,7 @@ using BackEnd.Infrastructure.Logger;
 using BackEnd.Logic.Interface;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BackeEnd.Infrastructure;
+namespace BackEnd.Infrastructure;
 
 public static class InfrastructureExtension
 {

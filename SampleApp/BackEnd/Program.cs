@@ -1,6 +1,8 @@
-using BackeEnd.Infrastructure;
+using BackEnd.Infrastructure;
 using BackEnd.Logic;
 using Microsoft.AspNetCore.ResponseCompression;
+using SampleApp.BackEnd.BackgroundServices;
+using SampleApp.BackEnd.BackgroundServices.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 //https://learn.microsoft.com/fr-fr/dotnet/api/microsoft.aspnetcore.builder.webapplication.createbuilder?view=aspnetcore-8.0
@@ -30,6 +32,10 @@ builder.Services.AddResponseCompression(options =>
     options.EnableForHttps = true;//be careful with this option, check the documentation 
     options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/octet-stream" });
 }); // for the Response Compression
+
+//we can move them to the Configure method
+builder.Services.AddHostedService<DataConsistencyWorkder>(); // for the hosted service
+builder.Services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
 
 var app = builder.Build();
 
