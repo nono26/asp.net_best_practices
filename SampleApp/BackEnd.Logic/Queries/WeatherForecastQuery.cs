@@ -31,9 +31,8 @@ public class WeatherForecastQueryHandler : IRequestHandler<WeatherForecastQuery,
         {
             //define the logic here 
             _logger.LogInformation($"Getting weather forecast for {request.Days} days");
-            return await Task.FromResult(
-                await _gateway.GetWeatherForecast(request.Days) //Access to the gateway to get the data from an external source
-                );
+            return await _gateway.GetWeatherForecast(request.Days); //Access to the gateway to get the data from an external source
+
         }
         catch (Exception ex)
         {
