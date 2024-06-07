@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace SampleApp.BackEnd.Attributes;
 
-public class GlobalResponseHeaderAttribute : ActionFilterAttribute
+public class GlobalResponseHeaderAttribute : ActionFilterAttribute //ActionFilterAttribute is an implementation of IActionFilter, so :IActionFilter works
 {
     public GlobalResponseHeaderAttribute() { }
 

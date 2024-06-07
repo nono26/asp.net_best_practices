@@ -60,3 +60,8 @@ Any use of third-party trademarks or logos are subject to those third-party's po
 
 
 https://learn.microsoft.com/en-us/dotnet/fundamentals/networking/http/http-overview
+
+JWT best practices:
+https://github.com/ticarpi/jwt_tool/wiki 
+
+https://github.com/Lmammino/jwt-cracker

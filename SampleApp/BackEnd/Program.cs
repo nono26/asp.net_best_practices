@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using SampleApp.BackEnd.Attributes;
 using SampleApp.BackEnd.BackgroundServices;
 using SampleApp.BackEnd.BackgroundServices.Interfaces;
+using SampleApp.BackEnd.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 //https://learn.microsoft.com/fr-fr/dotnet/api/microsoft.aspnetcore.builder.webapplication.createbuilder?view=aspnetcore-8.0
@@ -21,7 +22,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers(options =>
 {
     options.RespectBrowserAcceptHeader = true; //respect the browser accept header
-    options.Filters.Add<GlobalResponseHeaderAttribute>();//add a global header to the response for each request #filterAttribut_3
+    options.Filters.Add<GlobalResponseHeaderAttribute>();//add a header to the response for each request #filterAttribut_3
 }
 ).AddXmlSerializerFormatters();// Configuring Content negotiation
 
@@ -38,6 +39,8 @@ builder.Services.AddResponseCompression(options =>
 //we can move them to the Configure method
 builder.Services.AddHostedService<DataConsistencyWorkder>(); // for the hosted service
 builder.Services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
+
+builder.Services.AddScoped<ValidationFilterAttribute>();// for the ValidationFilterAttribute
 
 var app = builder.Build();
 

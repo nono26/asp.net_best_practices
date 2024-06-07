@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SampleApp.BackEnd.Attributes;
 using SampleApp.BackEnd.Models;
 
 namespace SampleApp.BackEnd.Controllers;
