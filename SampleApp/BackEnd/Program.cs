@@ -5,6 +5,10 @@ using SampleApp.BackEnd.Attributes;
 using SampleApp.BackEnd.BackgroundServices;
 using SampleApp.BackEnd.BackgroundServices.Interfaces;
 using SampleApp.BackEnd.Controllers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
+using SimpleApp.BackEnd.Models;
+using SampleApp.BackEnd.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 //https://learn.microsoft.com/fr-fr/dotnet/api/microsoft.aspnetcore.builder.webapplication.createbuilder?view=aspnetcore-8.0
@@ -17,7 +21,36 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 //Configure ApiExplorer à l’aide de Metadata. permet de générere la documentation des APIs en utilisant les métadonnées des points de terminaison.
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    //change the title and the version of the documentation
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "WebAPI Best Practices", Version = "v1" });
+    //Added the authorization header to the swagger documentation (allow to add a token to the request)
+    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme()
+    {
+        Name = "Authorization",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 12345abcdef\""
+    });
+    //Added
+    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
 
 builder.Services.AddControllers(options =>
 {
@@ -42,6 +75,31 @@ builder.Services.AddScoped<IScopedProcessingService, ScopedProcessingService>();
 
 builder.Services.AddScoped<ValidationFilterAttribute>();// for the ValidationFilterAttribute
 
+//JWT Bearer
+//read the mySettings section from the appsettings.json
+var tokenOptionsConfig = builder.Configuration.GetSection("TokenOptions");
+
+builder.Services.Configure<TokenOptions>(tokenOptionsConfig);
+var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+
+var signingConfigurations = new SigningConfigurations(tokenOptions.Secret);
+builder.Services.AddSingleton(signingConfigurations);
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters =
+            new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+            {
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = tokenOptions.Issuer,
+                ValidAudience = tokenOptions.Audience,
+                IssuerSigningKey = signingConfigurations.SecurityKey,
+                ClockSkew = TimeSpan.Zero
+            };
+    });
+
 var app = builder.Build();
 
 app.UseResponseCompression(); // we add the middleware to our request pileline
@@ -61,6 +119,10 @@ if (!app.Environment.IsDevelopment())
 
 app.MapControllers();// for the Controllers
 app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+
+//Order is important!
+app.UseAuthentication();//it's lets your app know who the user is
+app.UseAuthorization();// it's ensures that the user is allowed to access the resources
 
 # region "Minimun API"
 
