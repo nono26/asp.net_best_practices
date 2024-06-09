@@ -21,7 +21,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<string>> Login([FromBody] LoginRequest request)
+    public async Task<ActionResult<TokenResourcesDto>> Login([FromBody] LoginRequest request)
     {
         if (ModelState.IsValid)
         {

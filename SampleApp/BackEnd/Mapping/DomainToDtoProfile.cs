@@ -8,6 +8,8 @@ public class DomainToDtoProfile : Profile
 {
     public DomainToDtoProfile()
     {
-        CreateMap<TokenResource, TokenResourcesDto>();
+        CreateMap<TokenResource, TokenResourcesDto>()
+        .ForMember(a => a.AccessToken, opt => opt.MapFrom(a => a.AccessToken))
+        .ForMember(a => a.expiration, opt => opt.MapFrom(a => a.Expiration));
     }
 }
