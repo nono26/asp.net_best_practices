@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -11,10 +12,12 @@ namespace SampleApp.BackEnd.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly IMapper _mapper;
 
-    public AuthController(IMediator mediator)
+    public AuthController(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
+        _mapper = mapper;
     }
 
     [HttpPost("login")]
@@ -22,7 +25,8 @@ public class AuthController : ControllerBase
     {
         if (ModelState.IsValid)
         {
-            var token = await _mediator.Send(new LoginQuery { Username = request.Username, Password = request.Password });
+            var response = await _mediator.Send(new LoginQuery { Username = request.Username, Password = request.Password });
+            var token = _mapper.Map<TokenResourcesDto>(response);
             return token != null ? Ok(token) : Unauthorized();//Or BadRequest() for security purpose
         }
         return BadRequest(ModelState);

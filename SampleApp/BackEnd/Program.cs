@@ -4,11 +4,9 @@ using Microsoft.AspNetCore.ResponseCompression;
 using SampleApp.BackEnd.Attributes;
 using SampleApp.BackEnd.BackgroundServices;
 using SampleApp.BackEnd.BackgroundServices.Interfaces;
-using SampleApp.BackEnd.Controllers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
-using SimpleApp.BackEnd.Models;
 using SampleApp.BackEnd.Models;
+using SampleApp.BackEnd.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 //https://learn.microsoft.com/fr-fr/dotnet/api/microsoft.aspnetcore.builder.webapplication.createbuilder?view=aspnetcore-8.0
@@ -100,6 +98,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             };
     });
 
+//add automapper 
+builder.Services.AddAutoMapper(typeof(DomainToDtoProfile));
 var app = builder.Build();
 
 app.UseResponseCompression(); // we add the middleware to our request pileline

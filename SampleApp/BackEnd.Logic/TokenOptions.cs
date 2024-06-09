@@ -1,4 +1,4 @@
-namespace SimpleApp.BackEnd.Models;
+namespace BackEnd.Logic;
 
 public class TokenOptions
 {
