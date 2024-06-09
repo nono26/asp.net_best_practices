@@ -1,5 +1,4 @@
 
-using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
 using BackEnd.Logic;
 using BackEnd.Logic.Interface;
@@ -9,6 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using SampleApp.BackEnd.Domain;
+using SampleApp.BackEnd.Logic.Interface;
 
 namespace SampleApp.BackEnd.Logic.Queries;
 
@@ -22,11 +22,13 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, TokenResource>
 {
     private readonly ILogger<LoginQueryHandler> _logger;
     private readonly TokenOptions _tokenOptions;
+    private readonly IReadUserGateway _readUserGateway;
 
-    public LoginQueryHandler(ILogger<LoginQueryHandler> logger, IOptions<TokenOptions> tokenOptions)
+    public LoginQueryHandler(ILogger<LoginQueryHandler> logger, IOptions<TokenOptions> tokenOptions, IReadUserGateway readUserGateway)
     {
         _logger = logger;
         _tokenOptions = tokenOptions.Value;
+        _readUserGateway = readUserGateway;
     }
 
 
@@ -37,9 +39,13 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, TokenResource>
             //define the logic here 
             _logger.LogInformation($"Getting user {request.Username} to login");
             //Check if the user exists
-            //var user = await ReadUserGateway(request.Username, request.Password);
-
-            return BuildAccessToken(request);
+            var user = await _readUserGateway.GetUser(request.Username, request.Password);
+            if (user is NullUser)
+            {
+                _logger.LogInformation($"User {request.Username} not found");
+                return new NullTokenResource();
+            }
+            return BuildAccessToken(user);
         }
         catch (Exception ex)
         {
@@ -52,14 +58,14 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, TokenResource>
         }
     }
 
-    private TokenResource BuildAccessToken(LoginQuery loginQuery)
+    private TokenResource BuildAccessToken(User user)
     {
         var accessTokenExpiration = DateTime.UtcNow.AddMinutes(_tokenOptions.AccessTokenExpiration);
 
         var securityToken = new JwtSecurityToken(
             issuer: _tokenOptions.Issuer,
             audience: _tokenOptions.Audience,
-            claims: GetClaims(loginQuery),
+            claims: GetClaims(user),
             expires: accessTokenExpiration,
             signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenOptions.Secret)), SecurityAlgorithms.HmacSha256)
         );
@@ -68,13 +74,20 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, TokenResource>
         return new TokenResource(handler.WriteToken(securityToken), accessTokenExpiration.Ticks);
     }
 
-    private IEnumerable<Claim> GetClaims(LoginQuery loginQuery)
+    private IEnumerable<Claim> GetClaims(User user)
     {
-        return new List<Claim>
+        var claims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.Sub, loginQuery.Username),
+            new Claim(JwtRegisteredClaimNames.Sub, user.Email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
+
+        foreach (var role in user.Roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role.Name));
+        }
+
+        return claims;
     }
 
 }
