@@ -23,6 +23,7 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, TokenResource>
     private readonly ILogger<LoginQueryHandler> _logger;
     private readonly TokenOptions _tokenOptions;
     private readonly IReadUserGateway _readUserGateway;
+    private readonly ICommandRefreshTokenGateway _commandRefreshTokenGateway;
 
     public LoginQueryHandler(ILogger<LoginQueryHandler> logger, IOptions<TokenOptions> tokenOptions, IReadUserGateway readUserGateway)
     {
@@ -31,7 +32,9 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, TokenResource>
         _readUserGateway = readUserGateway;
     }
 
-
+    /// <summary>
+    /// Handle the login query
+    /// </summary>
     public async Task<TokenResource> Handle(LoginQuery request, CancellationToken cancellationToken)
     {
         try
@@ -45,7 +48,7 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, TokenResource>
                 _logger.LogInformation($"User {request.Username} not found");
                 return new NullTokenResource();
             }
-            return BuildAccessToken(user);
+            return await CreateAccessTokenAsync(user);
         }
         catch (Exception ex)
         {
@@ -58,7 +61,15 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, TokenResource>
         }
     }
 
-    private TokenResource BuildAccessToken(User user)
+    private async Task<TokenResource> CreateAccessTokenAsync(User user)
+    {
+        var refreshToken = BuildRefreshToken();
+        var accessToken = BuildAccessToken(user, refreshToken);
+        await _commandRefreshTokenGateway.AddRefreshToken(refreshToken, user.Email);
+        return accessToken;
+    }
+
+    private TokenResource BuildAccessToken(User user, RefreshToken refreshToken)
     {
         var accessTokenExpiration = DateTime.UtcNow.AddMinutes(_tokenOptions.AccessTokenExpiration);
 
@@ -71,7 +82,7 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, TokenResource>
         );
 
         var handler = new JwtSecurityTokenHandler();
-        return new TokenResource(handler.WriteToken(securityToken), accessTokenExpiration.Ticks);
+        return new TokenResource(handler.WriteToken(securityToken), accessTokenExpiration.Ticks, refreshToken);
     }
 
     private IEnumerable<Claim> GetClaims(User user)
@@ -90,4 +101,9 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, TokenResource>
         return claims;
     }
 
+    private RefreshToken BuildRefreshToken()
+    {
+        var refreshTokenExpiration = DateTime.UtcNow.AddMinutes(_tokenOptions.RefreshTokenExpiration);
+        return new RefreshToken(Guid.NewGuid().ToString(), refreshTokenExpiration.Ticks);
+    }
 }

@@ -1,22 +1,22 @@
+using Sample.BackEnd.Domain;
+
 namespace SampleApp.BackEnd.Domain;
 
-public class TokenResource
+public class TokenResource : JsonWebToken
 {
-    public string AccessToken { get; init; }
-    //public string RefreshToken { get; set; }
-    public long Expiration { get; init; }
+    public RefreshToken RefreshToken { get; set; }
 
-    public TokenResource(string accessToken, long expiration)
+    public TokenResource(string accessToken, long expiration, RefreshToken refreshToken) : base(accessToken, expiration)
     {
-        AccessToken = accessToken;
-        //RefreshToken = refreshToken;
+        Token = accessToken;
+        RefreshToken = refreshToken;
         Expiration = expiration;
     }
 }
 
 public class NullTokenResource : TokenResource
 {
-    public NullTokenResource() : base(string.Empty, 0)
+    public NullTokenResource() : base(string.Empty, 0, null)
     {
     }
 }
