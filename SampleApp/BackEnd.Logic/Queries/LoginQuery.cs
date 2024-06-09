@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using SampleApp.BackEnd.Domain;
 using SampleApp.BackEnd.Logic.Interface;
+using System.Security.AccessControl;
 
 namespace SampleApp.BackEnd.Logic.Queries;
 
@@ -21,15 +22,16 @@ public class LoginQuery : IRequest<TokenResource>
 public class LoginQueryHandler : IRequestHandler<LoginQuery, TokenResource>
 {
     private readonly ILogger<LoginQueryHandler> _logger;
-    private readonly TokenOptions _tokenOptions;
     private readonly IReadUserGateway _readUserGateway;
     private readonly ICommandRefreshTokenGateway _commandRefreshTokenGateway;
+    private readonly ICommandTokenGateway _commandTokenGateway;
 
-    public LoginQueryHandler(ILogger<LoginQueryHandler> logger, IOptions<TokenOptions> tokenOptions, IReadUserGateway readUserGateway)
+    public LoginQueryHandler(ILogger<LoginQueryHandler> logger, IReadUserGateway readUserGateway, ICommandTokenGateway commandTokenGateway, ICommandRefreshTokenGateway commandRefreshTokenGateway)
     {
         _logger = logger;
-        _tokenOptions = tokenOptions.Value;
         _readUserGateway = readUserGateway;
+        _commandTokenGateway = commandTokenGateway;
+        _commandRefreshTokenGateway = commandRefreshTokenGateway;
     }
 
     /// <summary>
@@ -42,13 +44,15 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, TokenResource>
             //define the logic here 
             _logger.LogInformation($"Getting user {request.Username} to login");
             //Check if the user exists
-            var user = await _readUserGateway.GetUser(request.Username, request.Password);
+            var user = await _readUserGateway.GetUserAsync(request.Username, request.Password);
             if (user is NullUser)
             {
                 _logger.LogInformation($"User {request.Username} not found");
                 return new NullTokenResource();
             }
-            return await CreateAccessTokenAsync(user);
+            var accessToken = _commandTokenGateway.CreateAccessToken(user);
+            _commandRefreshTokenGateway.AddRefreshToken(accessToken.RefreshToken, user.Email);
+            return accessToken;
         }
         catch (Exception ex)
         {
@@ -59,51 +63,5 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, TokenResource>
         {
             _logger.LogInformation("User retrieved");
         }
-    }
-
-    private async Task<TokenResource> CreateAccessTokenAsync(User user)
-    {
-        var refreshToken = BuildRefreshToken();
-        var accessToken = BuildAccessToken(user, refreshToken);
-        await _commandRefreshTokenGateway.AddRefreshToken(refreshToken, user.Email);
-        return accessToken;
-    }
-
-    private TokenResource BuildAccessToken(User user, RefreshToken refreshToken)
-    {
-        var accessTokenExpiration = DateTime.UtcNow.AddMinutes(_tokenOptions.AccessTokenExpiration);
-
-        var securityToken = new JwtSecurityToken(
-            issuer: _tokenOptions.Issuer,
-            audience: _tokenOptions.Audience,
-            claims: GetClaims(user),
-            expires: accessTokenExpiration,
-            signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenOptions.Secret)), SecurityAlgorithms.HmacSha256)
-        );
-
-        var handler = new JwtSecurityTokenHandler();
-        return new TokenResource(handler.WriteToken(securityToken), accessTokenExpiration.Ticks, refreshToken);
-    }
-
-    private IEnumerable<Claim> GetClaims(User user)
-    {
-        var claims = new List<Claim>
-        {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
-
-        foreach (var role in user.Roles)
-        {
-            claims.Add(new Claim(ClaimTypes.Role, role.Name));
-        }
-
-        return claims;
-    }
-
-    private RefreshToken BuildRefreshToken()
-    {
-        var refreshTokenExpiration = DateTime.UtcNow.AddMinutes(_tokenOptions.RefreshTokenExpiration);
-        return new RefreshToken(Guid.NewGuid().ToString(), refreshTokenExpiration.Ticks);
     }
 }

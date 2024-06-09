@@ -13,7 +13,35 @@ public class ReadUserGateway : IReadUserGateway
         _logger = logger;
     }
 
-    public async Task<User> GetUser(string userName, string password)
+    public Task<User> FindByEmailAsync(string Email)
+    {
+        if (Email == "Arnaud@gmail.com")
+            return new Task<User>(() => new User
+            {
+                Id = 1,
+                Name = "Arnaud",
+                Email = "Arnaud@gmail.com",
+                Roles = new List<Role>
+                    {
+                        new Role { Id = 1, Name = "Admin" },
+                        new Role { Id = 2, Name = "User" }
+                    }
+            });
+        if (Email == "John@gmail.com")
+            return new Task<User>(() => new User
+            {
+                Id = 2,
+                Name = "John",
+                Email = "John@gmail.com",
+                Roles = new List<Role>
+                    {
+                        new Role { Id = 2, Name = "User" }
+                    }
+            });
+        return null;
+    }
+
+    public async Task<User> GetUserAsync(string userName, string password)
     {
         try
         {

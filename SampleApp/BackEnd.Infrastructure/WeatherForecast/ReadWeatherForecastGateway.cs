@@ -17,7 +17,7 @@ public class ReadWeatherForecastGateway : IReadWeatherForecastGateway
     /// </summary>
     /// <param name="days"></param>
     /// <returns></returns>
-    public async Task<IEnumerable<WeatherForecast>> GetWeatherForecast(int days)
+    public async Task<IEnumerable<WeatherForecast>> GetWeatherForecastAsync(int days)
     {
         _logger.LogInformation($"Getting weather forecast for {days} days");
 
@@ -35,7 +35,7 @@ public class ReadWeatherForecastGateway : IReadWeatherForecastGateway
         return await Task.FromResult(forecast);
     }
 
-    public async Task<IAsyncEnumerable<WeatherForecast>> GetWeatherForecastIAsyncEnumerable(int days)
+    public async Task<IAsyncEnumerable<WeatherForecast>> GetWeatherForecastIAsyncEnumerableAsync(int days)
     {
         _logger.LogInformation($"Getting weather forecast for {days} days");
 

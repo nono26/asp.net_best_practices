@@ -31,4 +31,17 @@ public class AuthController : ControllerBase
         }
         return BadRequest(ModelState);
     }
+
+    [HttpPost("refreshToken")]
+    public async Task<ActionResult<TokenResourcesDto>> RefreshToken([FromBody] RefreshTokenRequest request)
+    {
+        if (ModelState.IsValid)
+        {
+            var response = await _mediator.Send(new RefreshLoginQuery { Email = request.Email, RefreshToken = request.RefreshToken });
+            var token = _mapper.Map<TokenResourcesDto>(response);
+            return token != null ? Ok(token) : Unauthorized();//Or BadRequest() for security purpose
+        }
+        return BadRequest(ModelState);
+    }
+
 }

@@ -4,5 +4,6 @@ namespace SampleApp.BackEnd.Logic.Interface;
 
 public interface ICommandRefreshTokenGateway
 {
-    Task AddRefreshToken(RefreshToken refreshToken, string email);
+    void AddRefreshToken(RefreshToken refreshToken, string email);
+    Task<string> TakeRefreshTokenAsync(string email, string refreshToken);
 }

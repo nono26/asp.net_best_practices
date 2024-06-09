@@ -1,6 +1,6 @@
 public interface IReadWeatherForecastGateway
 {
-    Task<IEnumerable<WeatherForecast>> GetWeatherForecast(int days);
-    Task<IAsyncEnumerable<WeatherForecast>> GetWeatherForecastIAsyncEnumerable(int days);
+    Task<IEnumerable<WeatherForecast>> GetWeatherForecastAsync(int days);
+    Task<IAsyncEnumerable<WeatherForecast>> GetWeatherForecastIAsyncEnumerableAsync(int days);
 
 }

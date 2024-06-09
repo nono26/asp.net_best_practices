@@ -13,6 +13,6 @@ public class IWeatherForecastQueryIAsyncEnumerableHandler : IRequestHandler<Weat
 
     public async Task<IAsyncEnumerable<WeatherForecast>> Handle(WeatherForecastQueryIAsyncEnumerable request, CancellationToken cancellationToken)
     {
-        return await _gateway.GetWeatherForecastIAsyncEnumerable(request.Days);//Access to the gateway to get the data from an external source
+        return await _gateway.GetWeatherForecastIAsyncEnumerableAsync(request.Days);//Access to the gateway to get the data from an external source
     }
 }
