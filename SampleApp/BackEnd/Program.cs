@@ -102,6 +102,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAutoMapper(typeof(DomainToDtoProfile));
 var app = builder.Build();
 
+//middeleware
+
 app.UseResponseCompression(); // we add the middleware to our request pileline
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -114,12 +116,12 @@ if (app.Environment.IsDevelopment())
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/error");
-    app.UseHsts();
 }
 
 app.MapControllers();// for the Controllers
 app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 
+app.UseHttpsRedirection();
 //Order is important!
 app.UseAuthentication();//it's lets your app know who the user is
 app.UseAuthorization();// it's ensures that the user is allowed to access the resources
