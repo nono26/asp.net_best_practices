@@ -27,7 +27,7 @@ public class RefreshLoginQueryHandler : IRequestHandler<RefreshLoginQuery, Token
     {
         var token = await _commandRefreshTokenGateway.TakeRefreshTokenAsync(request.Email, request.RefreshToken);
 
-        if (!string.IsNullOrEmpty(token))
+        if (string.IsNullOrEmpty(token))
         {
             return new NullTokenResource();
         }
