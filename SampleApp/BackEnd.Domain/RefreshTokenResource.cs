@@ -1,5 +1,3 @@
-using Sample.BackEnd.Domain;
-
 namespace SampleApp.BackEnd.Domain;
 
 public class RefreshToken : JsonWebToken

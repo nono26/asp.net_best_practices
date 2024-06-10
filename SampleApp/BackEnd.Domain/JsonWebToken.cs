@@ -1,4 +1,4 @@
-namespace Sample.BackEnd.Domain
+namespace SampleApp.BackEnd.Domain
 {
     public class JsonWebToken
     {

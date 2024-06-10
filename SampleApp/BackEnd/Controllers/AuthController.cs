@@ -44,4 +44,15 @@ public class AuthController : ControllerBase
         return BadRequest(ModelState);
     }
 
+    [HttpPost("revokeRefreshToken")]
+    public async Task<ActionResult> Revoke([FromBody] RevokeTokenResource request)
+    {
+        if (ModelState.IsValid)
+        {
+            var response = await _mediator.Send(new RevokeRefreshTokenQuery(request.RefreshToken, request.Email));
+            return response ? Ok() : Unauthorized();//Or BadRequest() for security purpose
+        }
+        return BadRequest(ModelState);
+    }
+
 }
