@@ -1,3 +1,9 @@
+Lessons from
+
+https://app.pluralsight.com/ilx/video-courses/9908dc74-863d-4fee-b3b4-6d796ecbbf3a/71bcd97f-50c3-4f58-ac90-39966ec2be4b/ad65717c-d2c7-4712-aad3-554736967f7f
+
+https://app.pluralsight.com/ilx/video-courses/fcae0ff9-67ad-4398-a04f-20894693e177/475220f5-9616-4735-858a-d05cd870f7ee/be46a385-111a-4bd0-88bc-aac786b9e657
+
 dotnet list package
 
 Restaurer a réussi avec 8 avertissement(s) en 7,9s
