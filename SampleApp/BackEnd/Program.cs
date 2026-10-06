@@ -7,6 +7,8 @@ using SampleApp.BackEnd.BackgroundServices.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using SampleApp.BackEnd.Models;
 using SampleApp.BackEnd.Mapping;
+using BackEnd.Domain;
+using System.Xml;
 
 var builder = WebApplication.CreateBuilder(args);
 //https://learn.microsoft.com/fr-fr/dotnet/api/microsoft.aspnetcore.builder.webapplication.createbuilder?view=aspnetcore-8.0
@@ -100,6 +102,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 //add automapper 
 builder.Services.AddAutoMapper(typeof(DomainToDtoProfile));
+builder.Services.AddLegacySerializer();
+
 var app = builder.Build();
 
 //middeleware
@@ -149,6 +153,27 @@ app.MapGet("/MinAPIweatherforecast", () =>
 .WithOpenApi();
 
 #endregion "Minimun API"
+
+# region "Managinf Dependancies"
+
+var order = new Order
+{
+    Id = 1,
+    Amount = 100.50m,
+    CustomerName = "John Doe",
+    Note = "Please deliver between 9 AM and 5 PM.",
+    Status = OrderStatus.Pending,
+    CreatedAt = DateTimeOffset.UtcNow
+};
+
+// don't want to use Newtonsoft.Json directly
+//var json = Newtonsoft.Json.JsonConvert.SerializeObject(order, Newtonsoft.Json.Formatting.Indented);
+
+var serializer = app.Services.GetService<ISerializer>();
+var json = serializer.Serialize(order);
+Console.WriteLine(json);
+
+#endregion
 
 app.Run();
 

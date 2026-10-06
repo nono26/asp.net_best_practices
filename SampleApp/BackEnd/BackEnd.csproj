@@ -11,10 +11,12 @@
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0-preview.4.23260.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BackEnd.Refactoring.Infra.Serialization.Legacy\BackEnd.Refactoring.Infra.Serialization.Legacy.csproj" />
     <ProjectReference Include="..\BackEnd.Logic\BackEnd.Logic.csproj" />
     <ProjectReference Include="..\BackEnd.Infrastructure\BackEnd.Infrastructure.csproj" />
   </ItemGroup>
