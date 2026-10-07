@@ -1,4 +1,4 @@
-namespace BackEnd.Refactoring.Application.Abstration.Srlztn;
+namespace BackEnd.Refactoring.Application.Abstraction.Srlztn;
 
 public interface ISerializer
 {

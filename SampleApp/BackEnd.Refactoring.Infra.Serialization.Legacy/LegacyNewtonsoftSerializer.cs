@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization.Json;
 using Newtonsoft.Json;
-using BackEnd.Refactoring.Application.Abstration.Srlztn;
+using BackEnd.Refactoring.Application.Abstraction.Srlztn;
 using Newtonsoft.Json.Converters;
 namespace BackEnd.Refactoring.Infra.Serialization.Legacy;
 

@@ -1,4 +1,4 @@
-using BackEnd.Refactoring.Application.Abstration.Srlztn;
+using BackEnd.Refactoring.Application.Abstraction.Srlztn;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BackEnd.Refactoring.Infra.Serialization.Legacy;

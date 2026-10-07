@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../BackEnd.Refactoring.Application.Abstration.Srlztn/BackEnd.Refactoring.Application.Abstration.Srlztn.csproj" />
+    <ProjectReference Include="../BackEnd.Refactoring.Application.Abstraction.Srlztn/BackEnd.Refactoring.Application.Abstraction.Srlztn.csproj" />
   </ItemGroup>
 
   <ItemGroup>
