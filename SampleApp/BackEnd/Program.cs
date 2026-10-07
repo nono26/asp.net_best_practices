@@ -105,6 +105,10 @@ builder.Services.AddAutoMapper(typeof(DomainToDtoProfile));
 
 //builder.Services.AddLegacySerializer();
 builder.Services.AddModermSerializer();
+
+builder.Services.AddScoped<IReportStorage, InMemoryStorageAdapter>(); // for the InMemoryStorageAdapter
+
+
 var app = builder.Build();
 
 //middeleware
@@ -173,6 +177,8 @@ var order = new Order
 var serializer = app.Services.GetService<ISerializer>();
 var json = serializer.Serialize(order);
 Console.WriteLine(json);
+
+
 
 #endregion
 
