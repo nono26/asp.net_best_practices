@@ -1,0 +1,8 @@
+{
+  "Id": 42,
+  "Amount": 99.99,
+  "CustomerName": "Ada",
+  "Note": null,
+  "Status": "Pending",
+  "CreatedAt": "2024-01-02T03:04:05+00:00"
+}
