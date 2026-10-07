@@ -1,14 +1,14 @@
 using BackEnd.Domain;
 using BackEnd.Refactoring.Infra.Serialization.Legacy;
+using Xunit;
 
 namespace BackEnd.Tests.Characterization;
 
-[TestClass]
 public class LegacyNewtonsoftSerializerCharacterizationTests
 {
     private static readonly LegacyNewtonSoftSerializer Serializer = new();
 
-    [TestMethod]
+    [Fact]
     public void Serialize_UsesLegacyFormattingAndStringEnumNames()
     {
         var order = new Order
@@ -34,10 +34,10 @@ public class LegacyNewtonsoftSerializerCharacterizationTests
         }
         """;
 
-        Assert.AreEqual(expected, json);
+        Assert.Equal(expected, json);
     }
 
-    [TestMethod]
+    [Fact]
     public void Deserialize_MapsLegacyJsonIntoAnOrder()
     {
         const string json = """
@@ -53,20 +53,20 @@ public class LegacyNewtonsoftSerializerCharacterizationTests
 
         var order = Serializer.Deserialize<Order>(json);
 
-        Assert.IsNotNull(order);
-        Assert.AreEqual(42, order.Id);
-        Assert.AreEqual(99.99m, order.Amount);
-        Assert.AreEqual("Ada", order.CustomerName);
-        Assert.IsNull(order.Note);
-        Assert.AreEqual(OrderStatus.Pending, order.Status);
-        Assert.AreEqual(new DateTimeOffset(2024, 1, 2, 3, 4, 5, TimeSpan.Zero), order.CreatedAt);
+        Assert.NotNull(order);
+        Assert.Equal(42, order.Id);
+        Assert.Equal(99.99m, order.Amount);
+        Assert.Equal("Ada", order.CustomerName);
+        Assert.Null(order.Note);
+        Assert.Equal(OrderStatus.Pending, order.Status);
+        Assert.Equal(new DateTimeOffset(2024, 1, 2, 3, 4, 5, TimeSpan.Zero), order.CreatedAt);
     }
 
-    [TestMethod]
+    [Fact]
     public void Deserialize_WhenJsonIsNull_ThrowsInvalidOperationException()
     {
-        var exception = Assert.ThrowsExactly<InvalidOperationException>(() => Serializer.Deserialize<Order>("null"));
+        var exception = Assert.Throws<InvalidOperationException>(() => Serializer.Deserialize<Order>("null"));
 
-        Assert.AreEqual("Deserialization return null", exception.Message);
+        Assert.Equal("Deserialization return null", exception.Message);
     }
 }

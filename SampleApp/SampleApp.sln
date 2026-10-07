@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackEnd.Refactoring.Infra.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackEnd.Refactoring.Application.Abstraction.Srlztn", "BackEnd.Refactoring.Application.Abstraction.Srlztn\BackEnd.Refactoring.Application.Abstraction.Srlztn.csproj", "{5A83BA89-2265-412E-B41F-D261AC5DC786}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackEnd.Tests.Characterization", "BackEnd.Tests\BackEnd.Tests.Characterization.csproj", "{ED23AD71-3F89-4AFE-A70E-93D9BC8E4397}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackEnd.Tests", "BackEnd.Tests\BackEnd.Tests.csproj", "{ED23AD71-3F89-4AFE-A70E-93D9BC8E4397}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackEnd.Refactoring.Infra.Serialization.Moderm", "BackEnd.Refactoring.Infra.Serialization.Moderm\BackEnd.Refactoring.Infra.Serialization.Moderm.csproj", "{62D7D5AA-BFC5-4CE8-91A6-665425D971A8}"
 EndProject
