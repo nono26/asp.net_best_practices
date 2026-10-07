@@ -1,4 +1,6 @@
-﻿namespace BackEnd.Refactoring.Infra.Serialization.Moderm;
+﻿using BackEnd.Refactoring.Application.Abstraction.Srlztn;
+
+namespace BackEnd.Refactoring.Infra.Serialization.Moderm;
 
 public class SystemTextJsonSerializer : ISerializer
 {
@@ -6,8 +8,8 @@ public class SystemTextJsonSerializer : ISerializer
     {
         WriteIndented = true,
         DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
-        PropeprtyNamingPolicy = null,
-        Converters = { new System.Text.Json.Serialization.JsonStringEnumConverter() }   
+        PropertyNamingPolicy = null,
+        Converters = { new System.Text.Json.Serialization.JsonStringEnumConverter() }
     };
 
     public string Serialize<T>(T obj)
