@@ -19,6 +19,8 @@
     <ProjectReference Include="..\BackEnd.Refactoring.Infra.Serialization.Legacy\BackEnd.Refactoring.Infra.Serialization.Legacy.csproj" />
     <ProjectReference Include="..\BackEnd.Logic\BackEnd.Logic.csproj" />
     <ProjectReference Include="..\BackEnd.Infrastructure\BackEnd.Infrastructure.csproj" />
+    <ProjectReference Include="..\BackEnd.Domain\BackEnd.Domain.csproj" />
+    <ProjectReference Include="..\BackEnd.Refactoring.Application.Abstration.Srlztn\BackEnd.Refactoring.Application.Abstration.Srlztn.csproj" />
   </ItemGroup>
 
 </Project>
