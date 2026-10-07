@@ -102,8 +102,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 //add automapper 
 builder.Services.AddAutoMapper(typeof(DomainToDtoProfile));
-builder.Services.AddLegacySerializer();
 
+//builder.Services.AddLegacySerializer();
+builder.Services.AddModermSerializer();
 var app = builder.Build();
 
 //middeleware
