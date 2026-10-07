@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackEnd.Tests", "BackEnd.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackEnd.Refactoring.Infra.Serialization.Moderm", "BackEnd.Refactoring.Infra.Serialization.Moderm\BackEnd.Refactoring.Infra.Serialization.Moderm.csproj", "{62D7D5AA-BFC5-4CE8-91A6-665425D971A8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackEnd.Benchmarks", "BackEnd.Benchmarks\BackEnd.Benchmarks.csproj", "{BF23ED63-8819-4971-93E4-45738F600E14}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -141,6 +143,18 @@ Global
 		{62D7D5AA-BFC5-4CE8-91A6-665425D971A8}.Release|x64.Build.0 = Release|Any CPU
 		{62D7D5AA-BFC5-4CE8-91A6-665425D971A8}.Release|x86.ActiveCfg = Release|Any CPU
 		{62D7D5AA-BFC5-4CE8-91A6-665425D971A8}.Release|x86.Build.0 = Release|Any CPU
+		{BF23ED63-8819-4971-93E4-45738F600E14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF23ED63-8819-4971-93E4-45738F600E14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF23ED63-8819-4971-93E4-45738F600E14}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BF23ED63-8819-4971-93E4-45738F600E14}.Debug|x64.Build.0 = Debug|Any CPU
+		{BF23ED63-8819-4971-93E4-45738F600E14}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BF23ED63-8819-4971-93E4-45738F600E14}.Debug|x86.Build.0 = Debug|Any CPU
+		{BF23ED63-8819-4971-93E4-45738F600E14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF23ED63-8819-4971-93E4-45738F600E14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF23ED63-8819-4971-93E4-45738F600E14}.Release|x64.ActiveCfg = Release|Any CPU
+		{BF23ED63-8819-4971-93E4-45738F600E14}.Release|x64.Build.0 = Release|Any CPU
+		{BF23ED63-8819-4971-93E4-45738F600E14}.Release|x86.ActiveCfg = Release|Any CPU
+		{BF23ED63-8819-4971-93E4-45738F600E14}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

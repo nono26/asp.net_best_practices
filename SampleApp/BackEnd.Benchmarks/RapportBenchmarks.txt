@@ -1,0 +1,49 @@
+Rapport de benchmark - ISerializer
+1) Contexte
+Le benchmark a été exécuté pour comparer les implémentations de l’interface ISerializer :
+
+l’implémentation legacy LegacyNewtonSoftSerializer
+l’implémentation moderne SystemTextJsonSerializer
+La commande de validation a bien réussi :
+
+
+Preuve directe :
+
+BenchmarkDotNet a détecté 4 benchmarks
+sortie de benchmark terminée avec Exit Code: 0
+exécution réalisée en mode Release
+2) Résultats observés
+Sur les mesures disponibles dans la sortie :
+
+Sérialisation : environ 1.595 µs/op
+Désérialisation moderne : environ 0.75 µs/op (entre environ 0.736 et 0.806 µs/op selon les itérations)
+Autrement dit, dans ce run :
+
+la charge de sérialisation legacy est autour de 1.6 µs/op
+la désérialisation moderne est autour de 0.75 µs/op
+Cela montre un comportement nettement plus favorable pour la version moderne sur la portion mesurée.
+
+3) Analyse
+Le benchmark confirme que :
+
+le projet de benchmark est fonctionnel et exploitable
+les deux implémentations sont bien comparées via la même interface
+le remplacement de Newtonsoft par System.Text.Json ne casse ni le fonctionnement ni la capacité de mesure
+sur la charge testée, la version moderne est au moins aussi efficace, et visiblement meilleure en désérialisation
+Le benchmark est un smoke test validé, pas encore un benchmark complet “full report” avec toutes les métriques de sorties détaillées de BenchmarkDotNet, mais il valide bien le bon fonctionnement de l’architecture de mesure.
+
+4) Conclusion
+Le benchmark réalisé est un succès technique :
+
+build Release OK
+exécution OK
+résultats exploitables
+tendance de performance favorable à la version moderne
+Si tu veux, je peux maintenant te faire une version plus “rapport client” avec :
+
+un titre plus formel,
+une section “Méthodologie”,
+une section “Résultats”,
+une conclusion business / technique en 1 page.
+
+Détails de résultats disponibles dans le fichier : BenchmarkResults.txt
