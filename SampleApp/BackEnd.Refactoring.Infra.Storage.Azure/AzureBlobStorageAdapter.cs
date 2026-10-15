@@ -1,4 +1,9 @@
-﻿namespace BackEnd.Refactoring.Infra.Storage.Azure;
+﻿using Azure.Storage.Blobs;
+using BackEnd.Refactoring.Application.Abstraction.Srlztn;
+using Azure;
+using BackEnd.Domain.Exceptions;
+
+namespace BackEnd.Refactoring.Infra.Storage.Azure;
 
 /// <summary>
 /// Adapts Azure Blob Storage to the domain's IReportStorage interface.
@@ -31,7 +36,7 @@ public sealed class AzureBlobStorageAdapter : IReportStorage
             using var stream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(reportContent));
             await blobClient.UploadAsync(stream, overwrite: true, cancellationToken: cancellationToken);
         }
-        catch (Azure.RequestFailedException ex)
+        catch (RequestFailedException ex)
         {
             throw new StorageException(reportName, "Failed to save report to Azure Blob Storage.", ex);
         }
@@ -52,8 +57,9 @@ public sealed class AzureBlobStorageAdapter : IReportStorage
                 using var reader = new StreamReader(downloadInfo.Value.Content);
                 return await reader.ReadToEndAsync();
             }
+            throw new StorageException(reportName, "Report not found in Azure Blob Storage.");
         }
-        catch (Azure.RequestFailedException ex)
+        catch (RequestFailedException ex)
         {
             throw new StorageException(reportName, "Failed to load report from Azure Blob Storage.", ex);
         }

@@ -6,4 +6,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="../BackEnd.Domain/BackEnd.Domain.csproj" />
+    <ProjectReference Include="../BackEnd.Refactoring.Application.Abstraction.Srlztn/BackEnd.Refactoring.Application.Abstraction.Srlztn.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Core" Version="1.63.0" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.30.1" />
+  </ItemGroup>
+
 </Project>
