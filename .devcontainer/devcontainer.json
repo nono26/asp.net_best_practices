@@ -15,8 +15,8 @@
         "ghcr.io/devcontainers/features/common-utils:2": {},
         "ghcr.io/devcontainers/features/dotnet:2": {
             "version": "none",
-            "dotnetRuntimeVersions": "7.0",
-            "aspNetCoreRuntimeVersions": "7.0"
+            "dotnetRuntimeVersions": "10.0",
+            "aspNetCoreRuntimeVersions": "10.0"
         }
     },
     "customizations": {
@@ -40,7 +40,7 @@
     },
     "remoteEnv": {
         "DOTNET_MULTILEVEL_LOOKUP": "0",
-        "TARGET": "net8.0"
+        "TARGET": "net10.0"
     },
     "portsAttributes": {
         "8080": {
