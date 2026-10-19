@@ -1,6 +1,6 @@
 {
     "name": ".NET in Codespaces",
-    "image": "mcr.microsoft.com/dotnet/sdk:8.0",
+    "image": "mcr.microsoft.com/dotnet/sdk:10.0",
     "features": {
         "ghcr.io/devcontainers/features/docker-in-docker:2": {},
         "ghcr.io/devcontainers/features/github-cli:1": {
@@ -15,8 +15,8 @@
         "ghcr.io/devcontainers/features/common-utils:2": {},
         "ghcr.io/devcontainers/features/dotnet:2": {
             "version": "none",
-            "dotnetRuntimeVersions": "7.0",
-            "aspNetCoreRuntimeVersions": "7.0"
+            "dotnetRuntimeVersions": "10.0",
+            "aspNetCoreRuntimeVersions": "10.0"
         }
     },
     "customizations": {
@@ -25,7 +25,19 @@
                 "GitHub.copilot",
                 "ms-dotnettools.vscode-dotnet-runtime",
                 "ms-dotnettools.csdevkit",
-                "ms-dotnetools.csharp"
+                "ms-dotnetools.csharp",
+                "ms-ceintl.vscode-language-pack-fr",
+                "ms-vscode.powershell",
+                "mhutchie.git-graph",
+                "yzhang.markdown-all-in-one",
+                "pkief.material-icon-theme",
+                "patcx.vscode-nuget-gallery",
+                "mechatroner.rainbow-csv",
+                "tomoki1207.pdf",
+                "redhat.vscode-yaml",
+                "mermaidchart.vscode-mermaid-chart",
+                "esbenp.prettier-vscode",
+                "rangav.vscode-thunder-client"
             ]
         }
     },
@@ -40,7 +52,7 @@
     },
     "remoteEnv": {
         "DOTNET_MULTILEVEL_LOOKUP": "0",
-        "TARGET": "net8.0"
+        "TARGET": "net10.0"
     },
     "portsAttributes": {
         "8080": {

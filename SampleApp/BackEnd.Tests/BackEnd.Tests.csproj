@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../BackEnd.Domain/BackEnd.Domain.csproj" />
+    <ProjectReference Include="../BackEnd.Refactoring.Application.Abstraction.Srlztn/BackEnd.Refactoring.Application.Abstraction.Srlztn.csproj" />
+    <ProjectReference Include="../BackEnd.Refactoring.Infra.Serialization.Legacy/BackEnd.Refactoring.Infra.Serialization.Legacy.csproj" />
+    <ProjectReference Include="../BackEnd.Refactoring.Infra.Serialization.Moderm/BackEnd.Refactoring.Infra.Serialization.Moderm.csproj" />
+  </ItemGroup>
+
+
+</Project>

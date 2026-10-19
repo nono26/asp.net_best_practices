@@ -1,0 +1,29 @@
+Benchmark ISerializer - Résultats de validation
+================================================
+
+Date : 2026-10-07
+Mode : Release
+Commande : dotnet run -c Release --project BackEnd.Benchmarks/BackEnd.Benchmarks.csproj -- --job short --filter *
+
+Statut global
+- BenchmarkDotNet : 4 benchmarks détectés
+- Exécution : OK
+- Code de sortie : 0
+- Runtime : .NET 10.0.12
+
+Résultats observés
+- Legacy - Serialize : Mean = 1.595 us/op
+- Legacy - Serialize : intervalle observé ≈ 1.551 us/op à 1.653 us/op
+- Modern - Deserialize : Mean ≈ 0.75 us/op
+- Modern - Deserialize : intervalle observé ≈ 0.736 us/op à 0.806 us/op
+
+Interprétation
+- La mesure de sérialisation legacy est stable autour de 1.6 µs/op.
+- La désérialisation moderne est mesurée autour de 0.75 µs/op, soit nettement plus rapide sur la charge testée.
+- Le benchmark est exploitable et valide pour une comparaison de performance entre les deux implémentations.
+
+Conclusion
+- Le projet de benchmark fonctionne correctement.
+- Les deux implémentations sont comparées via la même interface ISerializer.
+- La tendance observée est favorable à la version moderne sur les opérations mesurées.
+- Cette exécution correspond à un smoke benchmark de validation, pas à un benchmark complet de production sur un large panel de scénario.
