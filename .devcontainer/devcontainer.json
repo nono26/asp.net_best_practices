@@ -25,7 +25,19 @@
                 "GitHub.copilot",
                 "ms-dotnettools.vscode-dotnet-runtime",
                 "ms-dotnettools.csdevkit",
-                "ms-dotnetools.csharp"
+                "ms-dotnetools.csharp",
+                "ms-ceintl.vscode-language-pack-fr",
+                "ms-vscode.powershell",
+                "mhutchie.git-graph",
+                "yzhang.markdown-all-in-one",
+                "pkief.material-icon-theme",
+                "patcx.vscode-nuget-gallery",
+                "mechatroner.rainbow-csv",
+                "tomoki1207.pdf",
+                "redhat.vscode-yaml",
+                "mermaidchart.vscode-mermaid-chart",
+                "esbenp.prettier-vscode",
+                "rangav.vscode-thunder-client"
             ]
         }
     },
