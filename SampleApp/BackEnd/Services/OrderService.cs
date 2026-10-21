@@ -24,6 +24,10 @@ public class OrderService(IReportStorage reportStorage, ISerializer serializer)
 
     public async Task<int> FakeActionAsync(){
         Task<int> myTask =  Task.Run(()=>{
+            //Fake a long process
+            Thread.Sleep(5000);
+            return 42;
         });
+        return await myTask;
     }
 }
