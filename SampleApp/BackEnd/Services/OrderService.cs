@@ -21,4 +21,9 @@ public class OrderService(IReportStorage reportStorage, ISerializer serializer)
         var reportContent = await reportStorage.LoadReportAsync(reportName, cancellationToken);
         return serializer.Deserialize<Order>(reportContent);
     }
+
+    public async Task<int> FakeActionAsync(){
+        Task<int> myTask =  Task.Run(()=>{
+        });
+    }
 }
